@@ -1,5 +1,5 @@
 const koa = require('koa');
-const route = require('koa-route');
+const router = require('koa-router')();
 const app = koa();
 
 const features = [
@@ -13,12 +13,13 @@ const resolveFeatures = function (featureName) {
   return require(`./lib/${featureName}`)
 }
 
-const router = {
-  get: (routeName, routeHandler) => app.use(route.get(`${apiPrefix}${routeName}`, routeHandler))
+const routerWrapper = {
+  get: (routeName, routeHandler) => router.get(`${apiPrefix}${routeName}`, routeHandler)
 }
 
 features
   .map(resolveFeatures)
-  .forEach(feature => feature(router))
+  .forEach(feature => feature(routerWrapper))
 
+app.use(router.routes())
 app.listen(process.env.PORT || 3000);
