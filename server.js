@@ -1,6 +1,8 @@
 const koa = require('koa');
+const couchbaseMiddleware = require('./middleware/koa-couchbase')
 const router = require('koa-router')();
 const app = koa();
+const config = require('./config.js')
 
 const features = [
   'activity',
@@ -23,5 +25,6 @@ features
   .map(resolveFeatures)
   .forEach(feature => feature(routerWrapper))
 
+app.use(couchbaseMiddleware(config))
 app.use(router.routes())
 app.listen(process.env.PORT || 3000);

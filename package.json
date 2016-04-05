@@ -18,6 +18,9 @@
   "homepage": "https://github.com/koellcode/joules-bourne#readme",
   "dependencies": {
     "koa": "^1.2.0",
-    "koa-router": "^5.4.0"
+    "koa-router": "^5.4.0",
+    "couchbase": "^2.1.4",
+    "bluebird": "^3.3.4",
+    "couchbase-promises": "koellcode/couchbase-promises"
   }
 }
