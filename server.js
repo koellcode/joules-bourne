@@ -6,12 +6,19 @@ const features = [
   'alive'
 ]
 
-const featureToRest = function (feature) {
-  return route.get(`/api/v1/${feature}`, require(`./lib/${feature}`))
+const apiVersion = 'v1'
+const apiPrefix = `/api/${apiVersion}`
+
+const resolveFeatures = function (featureName) {
+  return require(`./lib/${featureName}`)
+}
+
+const router = {
+  get: (routeName, routeHandler) => app.use(route.get(`${apiPrefix}${routeName}`, routeHandler))
 }
 
 features
-  .map(featureToRest)
-  .forEach(route => app.use(route))
+  .map(resolveFeatures)
+  .forEach(feature => feature(router))
 
 app.listen(process.env.PORT || 3000);
