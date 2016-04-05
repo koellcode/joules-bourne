@@ -3,6 +3,7 @@ const router = require('koa-router')();
 const app = koa();
 
 const features = [
+  'activity',
   'alive'
 ]
 
@@ -14,7 +15,8 @@ const resolveFeatures = function (featureName) {
 }
 
 const routerWrapper = {
-  get: (routeName, routeHandler) => router.get(`${apiPrefix}${routeName}`, routeHandler)
+  get: (routeName, routeHandler) => router.get(`${apiPrefix}${routeName}`, routeHandler),
+  post: (routeName, routeHandler) => router.post(`${apiPrefix}${routeName}`, routeHandler)
 }
 
 features
