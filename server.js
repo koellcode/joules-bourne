@@ -1,6 +1,7 @@
-const koa = require('koa');
+const koa = require('koa')
 const couchbaseMiddleware = require('./middleware/koa-couchbase')
-const router = require('koa-router')();
+const router = require('koa-router')()
+const koaBody = require('koa-body')()
 const app = koa();
 const config = require('./config.js')
 
@@ -18,7 +19,7 @@ const resolveFeatures = function (featureName) {
 
 const routerWrapper = {
   get: (routeName, routeHandler) => router.get(`${apiPrefix}${routeName}`, routeHandler),
-  post: (routeName, routeHandler) => router.post(`${apiPrefix}${routeName}`, routeHandler)
+  post: (routeName, routeHandler) => router.post(`${apiPrefix}${routeName}`, koaBody, routeHandler)
 }
 
 features
