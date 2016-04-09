@@ -13,9 +13,9 @@ const features = [
 const apiVersion = 'v1'
 const apiPrefix = `/api/${apiVersion}`
 
-const resolveFeatures = function (featureName) {
+const resolveFeatures = ( featureName => {
   return require(`./lib/${featureName}`)
-}
+})
 
 const routerWrapper = {
   get: (routeName, routeHandler) => router.get(`${apiPrefix}${routeName}`, routeHandler),
