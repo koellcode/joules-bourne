@@ -1,5 +1,5 @@
 const koa = require('koa')
-const couchbaseMiddleware = require('./middleware/koa-couchbase')
+const couchbaseMiddleware = require('./middleware/koa-couch')
 const router = require('koa-router')()
 const koaBody = require('koa-body')()
 const app = koa();
