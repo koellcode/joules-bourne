@@ -26,6 +26,7 @@
     "pouchdb": "^5.3.1",
     "superagent": "^1.8.3",
     "uuid": "^2.0.1",
-    "xml2json": "^0.9.0"
+    "xml2json": "^0.9.0",
+    "co-mmander": "https://github.com/koellcode/co-mmander"
   }
 }
