@@ -8,27 +8,24 @@ const request = Promise.promisify(require('request'))
 const program = require('commander');
 const deserialize = require('./tcx-to-dto')
 
+const readData = ( fileName => {
+  return fs.readFileAsync(fileName, 'utf8')
+})
+
+const postAction = Promise.coroutine(function * (path) {
+  const content = yield readData('samples/2015-09-19_Running.tcx')
+  deserialize(content).map(Promise.coroutine(function * (dto) {
+    yield request({
+      method: 'POST',
+      uri: 'http://localhost:3000/api/v1/activity',
+      json: true,
+      body: dto
+    })
+  }))
+})
+
 program
   .version('0.0.1')
   .option('-p, --path', 'specify folder for tcx files')
+  .action(postAction)
   .parse(process.argv)
-
-const readData = Promise.coroutine(function * () {
-  return yield fs.readFileAsync('samples/2015-09-19_Running.tcx', 'utf8')
-})
-
-
-if (program.path) {
-  readData().then(Promise.coroutine(function * (content) {
-    deserialize(content).map(Promise.coroutine(function * (dto) {
-      const response = yield request({
-        method: 'POST',
-        uri: 'http://localhost:3000/api/v1/activity',
-        json: true,
-        body: dto
-      })
-      console.log(response.body)
-    }))
-
-  }))
-}
