@@ -13,7 +13,7 @@ const features = [
 const apiVersion = 'v1'
 const apiPrefix = `/api/${apiVersion}`
 
-const resolveFeatures = ( featureName => {
+const resolveFeatures = (featureName => {
   return require(`./lib/${featureName}`)
 })
 

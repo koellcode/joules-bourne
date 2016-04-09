@@ -10,7 +10,7 @@ require('co-mmander')
 const program = require('commander')
 const deserialize = require('./tcx-to-dto')
 
-const readData = ( fileName => {
+const readData = (fileName => {
   return fs.readFileAsync(fileName, 'utf8')
 })
 

@@ -2,11 +2,11 @@
 
 const parser = require('xml2json')
 
-const getListOf = ( target => {
+const getListOf = (target => {
   return Array.isArray(target) ? target : [target]
 })
 
-module.exports = ( xml => {
+module.exports = (xml => {
   const options = {
     object: true,
     reversible: false,
@@ -21,7 +21,7 @@ module.exports = ( xml => {
 
   const source = json.TrainingCenterDatabase.Author.Name
 
-  const dto = activities.map( activity => {
+  const dto = activities.map(activity => {
     return {
       source: source,
       sport: activity.Sport,
