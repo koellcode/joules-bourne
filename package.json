@@ -1,7 +1,7 @@
 {
   "name": "joules-bourne",
   "version": "0.0.1",
-  "description": "",
+  "description": "quantify yourself",
   "main": "server.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec 'lib/**/test/*.js'"
