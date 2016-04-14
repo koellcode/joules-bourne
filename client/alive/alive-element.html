@@ -1,29 +1,47 @@
 <link rel="import" href="../external/polymer/polymer.html">
 <link rel="import" href="../external/iron-icons/iron-icons.html">
-
+<script src="../external/setimmediate/setimmediate.js"></script>
+<script src="../external/co/co.js"></script>
 
 <dom-module id="alive-icon">
-  <template>
-    <style>
-      iron-icon {
-        transition: all 0.2s;
-        -webkit-transition: all 0.2s;
-      }
-      iron-icon {
-        fill: green;
-      }
-    </style>
-    <h2>Alive!<h2>
+    <template>
+        <style>
+            iron-icon {
+                transition: all 0.2s;
+                -webkit-transition: all 0.2s;
+            }
+
+            iron-icon {
+                fill: grey;
+            }
+
+            iron-icon.alive {
+                fill: green;
+            }
+        </style>
+        <h2>{{message}}<h2>
+
     <iron-icon icon="language"></iron-icon>
+
   </template>
 
   <script>
   Polymer({
     is: 'alive-icon',
     // Fires when an instance of the element is created
-    created: function() {
-      console.log('loaded')
-    },
+    created: co(function * () {
+      const response = yield fetch('/api/v1/alive')
+      const json = yield response.json()
+      const icon = this.querySelector('iron-icon')
+
+      if(json.alive) {
+        this.message = 'Alive!'
+        icon.classList.add('alive')
+      } else {
+        this.message = 'Broken :('
+        icon.classList.remove('alive')
+      }
+    }),
 
     // Fires when the local DOM has been fully prepared
     ready: function() {},
@@ -35,7 +53,14 @@
     detached: function() {},
 
     // Fires when an attribute was added, removed, or updated
-    attributeChanged: function(name, type) {}
+    attributeChanged: function(name, type) {},
+
+    properties: {
+      message: {
+        type: String,
+        value: 'Waiting..'
+      }
+    }
   });
   </script>
 
