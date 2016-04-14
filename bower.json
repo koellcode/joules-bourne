@@ -1,0 +1,17 @@
+{
+  "name": "joules-bourne",
+  "description": "quantify yourself",
+  "license": "ISC",
+  "homepage": "https://github.com/koellcode/joules-bourne",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "client/external",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  }
+}

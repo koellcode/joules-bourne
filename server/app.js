@@ -2,7 +2,8 @@ const koa = require('koa')
 const couchbaseMiddleware = require('./middleware/koa-couch')
 const router = require('koa-router')()
 const koaBody = require('koa-body')()
-const app = koa();
+const serve = require('koa-static')
+const app = koa()
 const config = require('./config.js')
 
 const features = [
@@ -28,4 +29,5 @@ features
 
 app.use(couchbaseMiddleware(config))
 app.use(router.routes())
+app.use(serve('client'))
 app.listen(process.env.PORT || 3000);
