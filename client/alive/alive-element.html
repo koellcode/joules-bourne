@@ -1,0 +1,42 @@
+<link rel="import" href="../external/polymer/polymer.html">
+<link rel="import" href="../external/iron-icons/iron-icons.html">
+
+
+<dom-module id="alive-icon">
+  <template>
+    <style>
+      iron-icon {
+        transition: all 0.2s;
+        -webkit-transition: all 0.2s;
+      }
+      iron-icon {
+        fill: green;
+      }
+    </style>
+    <h2>Alive!<h2>
+    <iron-icon icon="language"></iron-icon>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'alive-icon',
+    // Fires when an instance of the element is created
+    created: function() {
+      console.log('loaded')
+    },
+
+    // Fires when the local DOM has been fully prepared
+    ready: function() {},
+
+    // Fires when the element was inserted into the document
+    attached: function() {},
+
+    // Fires when the element was removed from the document
+    detached: function() {},
+
+    // Fires when an attribute was added, removed, or updated
+    attributeChanged: function(name, type) {}
+  });
+  </script>
+
+</dom-module>
