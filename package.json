@@ -18,7 +18,7 @@
   "homepage": "https://github.com/koellcode/joules-bourne#readme",
   "dependencies": {
     "bluebird": "^3.3.4",
-    "co-mmander": "https://github.com/koellcode/co-mmander",
+    "co-mmander": "^0.1.0",
     "commander": "^2.9.0",
     "deep-readdir": "^0.2.0",
     "immutable": "^3.7.6",
@@ -33,7 +33,9 @@
     "xml2json": "^0.9.0"
   },
   "devDependencies": {
-    "chai": "*",
-    "mocha": "*"
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mocha-generators": "^1.2.0",
+    "supertest": "^1.2.0"
   }
 }

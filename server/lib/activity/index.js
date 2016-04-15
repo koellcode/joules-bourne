@@ -4,7 +4,6 @@ const serialize = require('./model').serialize
 const deserialize = require('./model').deserialize
 
 function * postActivityHandler (next) {
-
   //validate request here
   let model = serialize(this.request.body)
 
