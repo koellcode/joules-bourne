@@ -1,7 +1,6 @@
 'use strict'
 
 require('mocha-generators').install()
-const expect = require('chai').expect
 const koa = require('koa')
 
 describe('activity endpoint', () => {
@@ -11,12 +10,12 @@ describe('activity endpoint', () => {
 
     before(() => {
       app = koa()
-      request = require('supertest').agent(app.listen());
+      request = require('supertest').agent(app.listen())
 
       require('../')({
-        post:(route, handler) => {
+        post: (route, handler) => {
           app.use(require('koa-body')())
-          app.use(function *(next) {
+          app.use(function * (next) {
             this.db = {
               put: function * () {
                 return

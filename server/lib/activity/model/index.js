@@ -1,13 +1,13 @@
-"use strict"
+'use strict'
 
 const Immutable = require('immutable')
 const pickBy = require('lodash/pickBy')
 
-const deserialize = (immutableModel => {
+const deserialize = (immutableModel) => {
   return immutableModel.toJS()
-})
+}
 
-const serializeLap = (lapData => {
+const serializeLap = (lapData) => {
   return pickBy({
     TotalTimeSeconds: lapData.TotalTimeSeconds,
     StartTime: lapData.StartTime,
@@ -18,9 +18,9 @@ const serializeLap = (lapData => {
     TriggerMethod: lapData.TriggerMethod,
     Track: lapData.Track
   })
-})
+}
 
-const serialize = (modelData => {
+const serialize = (modelData) => {
   const model = {
     type: 'activity',
     source: modelData.source || 'unknown',
@@ -28,7 +28,7 @@ const serialize = (modelData => {
     laps: (modelData.laps || []).map(serializeLap)
   }
   return Immutable.Map(model)
-})
+}
 
 module.exports = {
   serialize: serialize,

@@ -1,3 +1,5 @@
+'use strict'
+
 const Couch = require('pouchdb')
 
 module.exports = function (config) {

@@ -1,23 +1,23 @@
-"use strict"
+'use strict'
 
 const serialize = require('./model').serialize
 const deserialize = require('./model').deserialize
 
 function * postActivityHandler (next) {
-  //validate request here
-  let model = serialize(this.request.body)
+  // validate request here
+  const model = serialize(this.request.body)
 
-  let create = require('./service/create')(this.db)
- //error handling here
-  let createdModel = yield create(model)
+  const create = require('./service/create')(this.db)
+  // error handling here
+  yield create(model)
 
-  //dto serializer here
+  // dto serializer here
   this.response.body = deserialize(model)
 
   this.status = 200
-  yield next;
+  yield next
 }
 
-module.exports = (router => {
+module.exports = (router) => {
   router.post('/activity', postActivityHandler)
-})
+}

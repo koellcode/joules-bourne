@@ -47,7 +47,6 @@ describe('model', () => {
         })
         expect(serialized.get('laps')).to.deep.equal([{}])
       })
-
     })
   })
 })

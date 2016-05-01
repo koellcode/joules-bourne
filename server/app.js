@@ -1,3 +1,5 @@
+'use strict'
+
 const koa = require('koa')
 const couchbaseMiddleware = require('./middleware/koa-couch')
 const router = require('koa-router')()
@@ -14,9 +16,9 @@ const features = [
 const apiVersion = 'v1'
 const apiPrefix = `/api/${apiVersion}`
 
-const resolveFeatures = (featureName => {
+const resolveFeatures = (featureName) => {
   return require(`./lib/${featureName}`)
-})
+}
 
 const routerWrapper = {
   get: (routeName, routeHandler) => router.get(`${apiPrefix}${routeName}`, routeHandler),
@@ -25,9 +27,9 @@ const routerWrapper = {
 
 features
   .map(resolveFeatures)
-  .forEach(feature => feature(routerWrapper))
+  .forEach((feature) => feature(routerWrapper))
 
 app.use(couchbaseMiddleware(config))
 app.use(router.routes())
 app.use(serve('client'))
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000)
