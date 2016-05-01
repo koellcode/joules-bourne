@@ -1,7 +1,7 @@
 'use strict'
 
 const uuid = require('uuid')
-const deserialize = require('../model').deserialize
+const {deserialize} = require('../model')
 
 const appendCreateDate = (model) => {
   return model.set('createdDate', new Date().toISOString())

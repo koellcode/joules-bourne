@@ -1,7 +1,6 @@
 'use strict'
 
-const serialize = require('./model').serialize
-const deserialize = require('./model').deserialize
+const {serialize, deserialize} = require('./model')
 
 function * postActivityHandler (next) {
   // validate request here
