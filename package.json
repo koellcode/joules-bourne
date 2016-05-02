@@ -4,7 +4,8 @@
   "description": "quantify yourself",
   "scripts": {
     "start": "node ./server/app.js",
-    "test": "node_modules/standard/bin/cmd.js && ./node_modules/.bin/mocha --reporter spec 'server/lib/**/test/*.js'"
+    "test": "node_modules/standard/bin/cmd.js && ./node_modules/.bin/mocha --reporter spec 'server/lib/**/test/*.js'",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "repository": {
     "type": "git",
@@ -33,11 +34,12 @@
     "xml2json": "^0.9.0"
   },
   "devDependencies": {
+    "bower": "^1.7.9",
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
     "mocha-generators": "^1.2.0",
-    "supertest": "^1.2.0",
-    "standard": "^6.0.8"
+    "standard": "^6.0.8",
+    "supertest": "^1.2.0"
   },
   "standard": {
     "globals": [
