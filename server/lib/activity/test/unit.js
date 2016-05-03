@@ -13,6 +13,7 @@ describe('activity endpoint', () => {
       request = require('supertest').agent(app.listen())
 
       require('../')({
+        get: () => '',
         post: (route, handler) => {
           app.use(require('koa-body')())
           app.use(function * (next) {
