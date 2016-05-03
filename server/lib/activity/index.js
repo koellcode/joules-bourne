@@ -17,6 +17,18 @@ function * postActivityHandler (next) {
   yield next
 }
 
+function * getActivityHandler (next) {
+  const isAmount = Boolean(this.query.amount)
+  if (isAmount) {
+    const amount = require('./service/amount')(this.db)
+    this.response.body = {
+      amount: yield amount()
+    }
+    yield next
+  }
+}
+
 module.exports = (router) => {
   router.post('/activity', postActivityHandler)
+  router.get('/activity', getActivityHandler)
 }

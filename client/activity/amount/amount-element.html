@@ -3,14 +3,18 @@
 <script src="../../external/co/co.js"></script>
 <dom-module id="amount-element">
   <template>
-    <h2>0 Activities</h2>
+    <h2>{{amount}} Activities</h2>
   </template>
 
   <script>
   Polymer({
     is: 'amount-element',
     // Fires when an instance of the element is created
-    created: () => '',
+    created: co(function * () {
+      const response = yield fetch('/api/v1/activity?amount=true')
+      const json = yield response.json()
+      this.amount = json.amount
+    }),
     // Fires when the local DOM has been fully prepared
     ready: () => '',
 
@@ -22,6 +26,13 @@
 
     // Fires when an attribute was added, removed, or updated
     attributeChanged: (name, type) => '',
+
+    properties: {
+      amount: {
+        type: Number,
+        value: 0
+      }
+    }
   });
   </script>
 </dom-module>
