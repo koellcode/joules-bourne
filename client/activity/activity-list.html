@@ -1,0 +1,36 @@
+<link rel="import" href="../../external/polymer/polymer.html">
+<link rel="import" href="./activity-entry.html">
+<script src="../../external/setimmediate/setImmediate.js"></script>
+<script src="../../external/co/co.js"></script>
+
+<dom-module id="activity-list">
+  <template>
+    <h2>Latest 10 activities</h2>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'activity-list',
+    // Fires when an instance of the element is created
+    created: co(function * () {
+      const response = yield fetch('/api/v1/activity')
+      const json = yield response.json()
+      json.forEach((activity) => {
+        this.appendChild(document.createElement('activity-entry'))
+      })
+    }),
+    // Fires when the local DOM has been fully prepared
+    ready: () => '',
+
+    // Fires when the element was inserted into the document
+    attached: () => '',
+
+    // Fires when the element was removed from the document
+    detached: () => '',
+
+    // Fires when an attribute was added, removed, or updated
+    attributeChanged: (name, type) => ''
+
+  });
+  </script>
+</dom-module>
