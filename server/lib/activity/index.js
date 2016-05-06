@@ -25,6 +25,11 @@ function * getActivityHandler (next) {
       amount: yield amount()
     }
     yield next
+  } else {
+    const latestActivies = require('./service/latest')(this.db)
+    const listOfLatestActivities = yield latestActivies(10)
+
+    this.response.body = listOfLatestActivities.map(deserialize)
   }
 }
 
