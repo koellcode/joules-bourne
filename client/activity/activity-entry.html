@@ -1,7 +1,17 @@
 <link rel="import" href="../../external/polymer/polymer.html">
+<script src="../../external/time-elements/time-elements.js"></script>
+
 <dom-module id="activity-entry">
   <template>
-    <h2>I'm an activity!</h2>
+    <article>
+    <header>
+      <h1>Du bist {{sportType}} gefahren.</h1>
+      <local-time datetime$="{{startTime}}" weekday="long" year="numeric" month="long" day="numeric" hour="numeric" minute="2-digit" second="2-digit"></local-time>
+    </header>
+    <section>Map</section>
+    <aside><ul><li>a</li><li>b</li></ul></aside>
+    </article>
+    <footer>Like this</footer>
   </template>
 
   <script>
@@ -19,7 +29,18 @@
     detached: () => '',
 
     // Fires when an attribute was added, removed, or updated
-    attributeChanged: (name, type) => ''
+    attributeChanged: (name, type) => '',
+
+    properties: {
+      sportType: {
+        type: String,
+        reflectToAttribute: true
+      },
+      startTime: {
+        type: String,
+        reflectToAttribute: true
+      }
+    }
 
   });
   </script>

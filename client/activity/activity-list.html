@@ -16,7 +16,11 @@
       const response = yield fetch('/api/v1/activity')
       const json = yield response.json()
       json.forEach((activity) => {
-        this.appendChild(document.createElement('activity-entry'))
+        activityEntry = document.createElement('activity-entry')
+        activityEntry.sportType = activity.sport
+        activityEntry.startTime = activity.laps[0].StartTime
+
+        this.appendChild(activityEntry)
       })
     }),
     // Fires when the local DOM has been fully prepared
