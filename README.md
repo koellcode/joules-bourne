@@ -5,4 +5,4 @@
 
 # heroku demo (WIP - works only on latest chrome)
 
-	  https://nameless-hamlet-23554.herokuapp.com/
+	  https://joules-bourne.herokuapp.com/
