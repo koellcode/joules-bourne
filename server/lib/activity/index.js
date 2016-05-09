@@ -17,7 +17,7 @@ function * postActivityHandler (next) {
   yield next
 }
 
-function * getActivityHandler (next) {
+function * getActivityListHandler (next) {
   const isAmount = Boolean(this.query.amount)
   if (isAmount) {
     const amount = require('./service/amount')(this.db)
@@ -33,7 +33,13 @@ function * getActivityHandler (next) {
   }
 }
 
+function * getActivityHandler () {
+  this.response.body = 'not implemented yet'
+  this.status = 200
+}
+
 module.exports = (router) => {
   router.post('/activity', postActivityHandler)
-  router.get('/activity', getActivityHandler)
+  router.get('/activity', getActivityListHandler)
+  router.get('/activity/:id', getActivityHandler)
 }
