@@ -1,6 +1,7 @@
 'use strict'
 
 const {expect} = require('chai')
+const Immutable = require('immutable')
 
 describe('model', () => {
   const model = require('../index')
@@ -38,14 +39,14 @@ describe('model', () => {
     describe('laps', () => {
       it('should defaults the laps property to an empty array', () => {
         const serialized = model.serialize({})
-        expect(serialized.get('laps')).to.deep.equal([])
+        expect(serialized.get('laps')).to.deep.equal(Immutable.fromJS([]))
       })
 
       it('should defaults nothing in a lap', () => {
         const serialized = model.serialize({
           laps: [{}]
         })
-        expect(serialized.get('laps')).to.deep.equal([{}])
+        expect(serialized.get('laps')).to.deep.equal(Immutable.fromJS([{}]))
       })
     })
   })

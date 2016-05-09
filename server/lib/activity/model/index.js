@@ -23,11 +23,12 @@ const serializeLap = (lapData) => {
 const serialize = (modelData) => {
   const model = {
     type: 'activity',
+    mapUrl: `/api/v1/activity/${modelData._id}/map`,
     source: modelData.source || 'unknown',
     sport: modelData.sport || 'unknown',
     laps: (modelData.laps || []).map(serializeLap)
   }
-  return Immutable.Map(model)
+  return Immutable.fromJS(model)
 }
 
 module.exports = {

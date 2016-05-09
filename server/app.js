@@ -32,4 +32,6 @@ features
 app.use(couchbaseMiddleware(config))
 app.use(router.routes())
 app.use(serve('client'))
+
+if (!process.env.MAPBOX_TOKEN) console.warn('No Mapbox token detected: going on without proper map support. (WIP)')
 app.listen(process.env.PORT || 3000)

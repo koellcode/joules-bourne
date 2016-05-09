@@ -38,6 +38,14 @@ function * getActivityHandler () {
   this.response.body = deserialize(yield getActivity(this.params.id))
   this.status = 200
 }
+
+function * getMapForActivityHandler (next) {
+  const getActivity = require('./service/get')(this.db)
+  const activity = yield getActivity(this.params.id)
+  const getMap = require('./service/static-map')(this.db)
+  const staticMap = yield getMap(activity)
+  this.body = staticMap.body
+  this.type = 'image/png'
   this.status = 200
 }
 
@@ -45,4 +53,5 @@ module.exports = (router) => {
   router.post('/activity', postActivityHandler)
   router.get('/activity', getActivityListHandler)
   router.get('/activity/:id', getActivityHandler)
+  router.get('/activity/:id/map', getMapForActivityHandler)
 }
