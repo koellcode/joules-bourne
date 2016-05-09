@@ -34,7 +34,10 @@ function * getActivityListHandler (next) {
 }
 
 function * getActivityHandler () {
-  this.response.body = 'not implemented yet'
+  const getActivity = require('./service/get')(this.db)
+  this.response.body = deserialize(yield getActivity(this.params.id))
+  this.status = 200
+}
   this.status = 200
 }
 
