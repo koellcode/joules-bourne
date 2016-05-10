@@ -89,6 +89,40 @@ describe('model', () => {
           }
         ])
       })
+      it('should omit trackpoints with undefined Positions', () => {
+        const serialized = model.serialize({
+          'laps': [
+            {
+              'Track': {
+                'Trackpoint': [
+                  {
+
+                  }
+                ]
+              }
+            },
+            {
+              'Track': {
+                'Trackpoint': [
+                  {
+                    'Position': {
+                      'LatitudeDegrees': 3,
+                      'LongitudeDegrees': 4
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        })
+
+        expect(serialized.getFlatTrackPoints().toJS()).to.deep.equal([
+          {
+            LatitudeDegrees: 3,
+            LongitudeDegrees: 4
+          }
+        ])
+      })
     })
   })
 })

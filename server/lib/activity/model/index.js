@@ -16,9 +16,9 @@ class ActivityModel {
 
   getFlatTrackPoints () {
     const trackPoints = this.getLaps().map(
-      (lap) => lap.getIn(['Track', 'Trackpoint']).map(
-        (trackPoint) => trackPoint.getIn(['Position'])
-      )
+      (lap) => lap.getIn(['Track', 'Trackpoint'])
+        .filter((trackPoint) => trackPoint.getIn(['Position']))
+        .map((trackPoint) => trackPoint.getIn(['Position']))
     )
     return trackPoints.reduce((prev, actual) => prev.concat(actual))
   }
