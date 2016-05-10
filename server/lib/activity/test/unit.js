@@ -29,8 +29,11 @@ describe('activity endpoint', () => {
       })
     })
 
-    it('should answer with status 200', function (done) {
-      request.post('/').send({}).expect(200, done)
+    it('should answer with status 422 when given sport type is wrong', function (done) {
+      request.post('/').send({sport: 'none'}).expect(422, done)
+    })
+    it('should answer with status 200 when given validation succeeds', function (done) {
+      request.post('/').send({sport: 'Biking'}).expect(200, done)
     })
   })
 })

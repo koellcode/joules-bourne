@@ -70,7 +70,14 @@ const serialize = (modelData) => {
   })
 }
 
+const validate = (modelData) => {
+  const {validateSportType} = require('./validator')
+  validateSportType(modelData.sport)
+  return modelData
+}
+
 module.exports = {
   serialize: serialize,
-  deserialize: deserialize
+  deserialize: deserialize,
+  validate: validate
 }

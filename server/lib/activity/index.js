@@ -1,10 +1,22 @@
 'use strict'
 
-const {serialize, deserialize} = require('./model')
+const {serialize, deserialize, validate} = require('./model')
+const {ValidationError} = require('./model/validator')
 
 function * postActivityHandler (next) {
-  // validate request here
-  const model = serialize(this.request.body)
+  const modelData = this.request.body
+
+  try {
+    validate(modelData)
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      this.status = 422
+      this.response.body = {message: error.message}
+      return yield next
+    }
+  }
+
+  const model = serialize(modelData)
 
   const create = require('./service/create')(this.db)
   // error handling here
