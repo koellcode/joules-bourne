@@ -4,7 +4,7 @@ const uuid = require('uuid')
 const {deserialize} = require('../model')
 
 const appendCreateDate = (model) => {
-  return model.set('createdDate', new Date().toISOString())
+  return model.setCreatedDate(new Date().toISOString())
 }
 
 module.exports = (db) => {

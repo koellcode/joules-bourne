@@ -12,7 +12,6 @@ function * postActivityHandler (next) {
 
   // dto serializer here
   this.response.body = deserialize(model)
-
   this.status = 200
   yield next
 }
@@ -44,6 +43,7 @@ function * getMapForActivityHandler (next) {
   const activity = yield getActivity(this.params.id)
   const getMap = require('./service/static-map')(this.db)
   const staticMap = yield getMap(activity)
+
   this.body = staticMap.body
   this.type = 'image/png'
   this.status = 200
