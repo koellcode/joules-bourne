@@ -48,5 +48,47 @@ describe('model', () => {
         expect(serialized.getLaps().toJS()).to.deep.equal([{}])
       })
     })
+    describe('trackPoints', () => {
+      it('should get a flat list of trackpoints from across different laps', () => {
+        const serialized = model.serialize({
+          'laps': [
+            {
+              'Track': {
+                'Trackpoint': [
+                  {
+                    'Position': {
+                      'LatitudeDegrees': 1,
+                      'LongitudeDegrees': 2
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              'Track': {
+                'Trackpoint': [
+                  {
+                    'Position': {
+                      'LatitudeDegrees': 3,
+                      'LongitudeDegrees': 4
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        })
+        expect(serialized.getFlatTrackPoints().toJS()).to.deep.equal([
+          {
+            LatitudeDegrees: 1,
+            LongitudeDegrees: 2
+          },
+          {
+            LatitudeDegrees: 3,
+            LongitudeDegrees: 4
+          }
+        ])
+      })
+    })
   })
 })
