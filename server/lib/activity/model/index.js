@@ -17,7 +17,6 @@ class ActivityModel {
   getFlatTrackPoints () {
     const trackPoints = this.getLaps().map(
       (lap) => lap.getIn(['Track', 'Trackpoint'])
-        .filter((trackPoint) => trackPoint.getIn(['Position']))
         .map((trackPoint) => trackPoint.getIn(['Position']))
     )
     return trackPoints.reduce((prev, actual) => prev.concat(actual))
@@ -40,6 +39,14 @@ const deserialize = (activityModel) => {
   return activityModel.toJS()
 }
 
+const serializeTrackPoints = (track) => {
+  if (typeof track === 'undefined') return undefined
+  if (typeof track.Trackpoint === 'undefined') return undefined
+  return {
+    Trackpoint: track.Trackpoint.filter((trackPoint) => trackPoint.Position)
+  }
+}
+
 const serializeLap = (lapData) => {
   return pickBy({
     TotalTimeSeconds: lapData.TotalTimeSeconds,
@@ -49,7 +56,7 @@ const serializeLap = (lapData) => {
     Calories: lapData.Calories,
     Intensity: lapData.Intensity,
     TriggerMethod: lapData.TriggerMethod,
-    Track: lapData.Track
+    Track: serializeTrackPoints(lapData.Track)
   })
 }
 

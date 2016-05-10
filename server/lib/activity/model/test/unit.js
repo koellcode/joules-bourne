@@ -49,6 +49,33 @@ describe('model', () => {
       })
     })
     describe('trackPoints', () => {
+      it('should filter out trackpoints with faulty positions', () => {
+        const serialized = model.serialize({
+          'laps': [
+            {
+              'Track': {
+                'Trackpoint': [
+                  {
+                    'lala': 'jaja'
+                  }
+                ]
+              }
+            }
+          ]
+        })
+        expect(serialized.toJS().laps[0].Track.Trackpoint).to.have.length(0)
+      })
+
+      it('should ignore empty Track', () => {
+        const serialized = model.serialize({laps: [{Track: undefined}]})
+        expect(serialized.toJS().laps[0]).not.to.have.property('Track')
+      })
+
+      it('should ignore empty Trackpoint', () => {
+        const serialized = model.serialize({laps: [{Track: {Trackpoint: undefined}}]})
+        expect(serialized.toJS().laps[0]).not.to.have.property('Track')
+      })
+
       it('should get a flat list of trackpoints from across different laps', () => {
         const serialized = model.serialize({
           'laps': [
