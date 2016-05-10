@@ -13,6 +13,9 @@ function * postActivityHandler (next) {
       this.status = 422
       this.response.body = {message: error.message}
       return yield next
+    } else {
+      this.status = 500
+      return yield next
     }
   }
 
