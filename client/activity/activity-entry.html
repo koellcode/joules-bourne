@@ -1,11 +1,30 @@
 <link rel="import" href="../../external/polymer/polymer.html">
+<link rel="import" href="../../external/paper-card/paper-card.html">
 <link rel="import" href="./duration-element.html">
 <script src="../../external/time-elements/time-elements.js"></script>
 
 <dom-module id="activity-entry">
   <template>
+    <style>
+      paper-card {
+        width: 25%;
+      }
+    </style>
+
+    <paper-card heading$="{{sportType}}" image$="{{mapUrl}}" animated fadeImage="true" preloadImage="true">
+      <div class="card-content">
+        <ul>
+          <li>{{calories}}kcal</li>
+          <li><duration-element duration$={{duration}}></duration-element></li>
+        </ul>
+      </div>
+      <div class="card-actions">
+        <local-time datetime$="{{startTime}}" weekday="long" year="numeric" month="long" day="numeric" hour="numeric" minute="2-digit" second="2-digit"></local-time>
+      </div>
+    </paper-card>
+
+<!--
     <section>
-      <header>
         <h1>Du bist {{sportType}} gefahren.</h1>
         <local-time datetime$="{{startTime}}" weekday="long" year="numeric" month="long" day="numeric" hour="numeric" minute="2-digit" second="2-digit"></local-time>
       </header>
@@ -17,7 +36,7 @@
         </ul>
       </aside>
       <footer>Like this</footer>
-    </section>
+    </section>-->
   </template>
 
   <script>

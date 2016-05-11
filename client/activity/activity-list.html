@@ -5,7 +5,13 @@
 
 <dom-module id="activity-list">
   <template>
+    <style>
+    ul {
+      list-style-type: none;
+    }
+    </style>
     <h2>Latest 10 activities</h2>
+    <ul class="activityList"></ul>
   </template>
 
   <script>
@@ -23,7 +29,10 @@
         activityEntry.calories = activity.calories
         activityEntry.duration = activity.duration
 
-        this.appendChild(activityEntry)
+        const li = document.createElement('li')
+        li.appendChild(activityEntry)
+
+        this.querySelector('.activityList').appendChild(li)
       })
     }),
     // Fires when the local DOM has been fully prepared
