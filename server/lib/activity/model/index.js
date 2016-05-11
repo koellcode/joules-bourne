@@ -39,13 +39,19 @@ class ActivityModel {
   getMapUrl () {
     return this.data.get('mapUrl')
   }
+  getCalories () {
+    return this.getLaps()
+      .map((lap) => lap.get('Calories'))
+      .reduce((allCalories, actual) => allCalories + actual)
+  }
 }
 
 const deserializeMin = (activityModel) => {
   return {
     sport: activityModel.getSport(),
     start: activityModel.getStartTime(),
-    map: activityModel.getMapUrl()
+    map: activityModel.getMapUrl(),
+    calories: activityModel.getCalories()
   }
 }
 const deserialize = (activityModel) => {

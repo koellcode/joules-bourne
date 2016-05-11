@@ -48,6 +48,20 @@ describe('model', () => {
         expect(serialized.getLaps().toJS()).to.deep.equal([{}])
       })
     })
+
+    describe('calories', () => {
+      it('shoud aggregate all Calories across the laps', () => {
+        const serialized = model.serialize({
+          laps: [{
+            Calories: 10
+          }, {
+            Calories: 20
+          }]
+        })
+        expect(serialized.getCalories()).to.equal(30)
+      })
+    })
+
     describe('trackPoints', () => {
       it('should filter out trackpoints with faulty positions', () => {
         const serialized = model.serialize({

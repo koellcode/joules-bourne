@@ -9,7 +9,7 @@
         <local-time datetime$="{{startTime}}" weekday="long" year="numeric" month="long" day="numeric" hour="numeric" minute="2-digit" second="2-digit"></local-time>
       </header>
       <section><img src="{{mapUrl}}"></img></section>
-      <aside><ul><li>a</li><li>b</li></ul></aside>
+      <aside><ul><li>{{calories}}kcal</li><li>b</li></ul></aside>
       <footer>Like this</footer>
     </section>
   </template>
@@ -41,6 +41,9 @@
         reflectToAttribute: true
       },
       mapUrl: {
+        type: String
+      },
+      calories: {
         type: String
       }
     }
