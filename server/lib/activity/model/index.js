@@ -44,6 +44,11 @@ class ActivityModel {
       .map((lap) => lap.get('Calories'))
       .reduce((allCalories, actual) => allCalories + actual)
   }
+  getDuration () {
+    return this.getLaps()
+      .map((lap) => lap.get('TotalTimeSeconds'))
+      .reduce((completeDuration, actual) => completeDuration + actual)
+  }
 }
 
 const deserializeMin = (activityModel) => {
@@ -51,7 +56,8 @@ const deserializeMin = (activityModel) => {
     sport: activityModel.getSport(),
     start: activityModel.getStartTime(),
     map: activityModel.getMapUrl(),
-    calories: activityModel.getCalories()
+    calories: activityModel.getCalories(),
+    duration: activityModel.getDuration()
   }
 }
 const deserialize = (activityModel) => {

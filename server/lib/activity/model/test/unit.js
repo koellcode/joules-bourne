@@ -62,6 +62,19 @@ describe('model', () => {
       })
     })
 
+    describe('duration', () => {
+      it('shoud aggregate all Calories across the laps', () => {
+        const serialized = model.serialize({
+          laps: [{
+            TotalTimeSeconds: 10
+          }, {
+            TotalTimeSeconds: 20
+          }]
+        })
+        expect(serialized.getDuration()).to.equal(30)
+      })
+    })
+
     describe('trackPoints', () => {
       it('should filter out trackpoints with faulty positions', () => {
         const serialized = model.serialize({

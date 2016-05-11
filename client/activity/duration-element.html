@@ -1,0 +1,27 @@
+<link rel="import" href="../../external/polymer/polymer.html">
+<dom-module id="duration-element">
+  <template>
+    {{formattedDuration}}
+  </template>
+
+  <script>
+  Polymer({
+    is: 'duration-element',
+    properties: {
+      duration: {
+        type: Number
+      },
+      formattedDuration: {
+        type: String,
+        computed: 'format(duration)',
+        readOnly: true,
+      }
+    },
+    format: (duration) => {
+      const emptyDate = new Date(null)
+      emptyDate.setSeconds(duration)
+      return `${emptyDate.toISOString().substr(11, 8)} h`
+    }
+  });
+  </script>
+</dom-module>

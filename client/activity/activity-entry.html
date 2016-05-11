@@ -1,4 +1,5 @@
 <link rel="import" href="../../external/polymer/polymer.html">
+<link rel="import" href="./duration-element.html">
 <script src="../../external/time-elements/time-elements.js"></script>
 
 <dom-module id="activity-entry">
@@ -9,7 +10,12 @@
         <local-time datetime$="{{startTime}}" weekday="long" year="numeric" month="long" day="numeric" hour="numeric" minute="2-digit" second="2-digit"></local-time>
       </header>
       <section><img src="{{mapUrl}}"></img></section>
-      <aside><ul><li>{{calories}}kcal</li><li>b</li></ul></aside>
+      <aside>
+        <ul>
+          <li>{{calories}}kcal</li>
+          <li><duration-element duration$={{duration}}></duration-element></li>
+        </ul>
+      </aside>
       <footer>Like this</footer>
     </section>
   </template>
@@ -39,12 +45,6 @@
       startTime: {
         type: String,
         reflectToAttribute: true
-      },
-      mapUrl: {
-        type: String
-      },
-      calories: {
-        type: String
       }
     }
   });
