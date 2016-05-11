@@ -33,8 +33,21 @@ class ActivityModel {
   getLaps () {
     return this.data.get('laps')
   }
+  getStartTime () {
+    return this.getLaps().get(0).get('StartTime')
+  }
+  getMapUrl () {
+    return this.data.get('mapUrl')
+  }
 }
 
+const deserializeMin = (activityModel) => {
+  return {
+    sport: activityModel.getSport(),
+    start: activityModel.getStartTime(),
+    map: activityModel.getMapUrl()
+  }
+}
 const deserialize = (activityModel) => {
   return activityModel.toJS()
 }
@@ -79,5 +92,6 @@ const validate = (modelData) => {
 module.exports = {
   serialize: serialize,
   deserialize: deserialize,
+  deserializeMin: deserializeMin,
   validate: validate
 }

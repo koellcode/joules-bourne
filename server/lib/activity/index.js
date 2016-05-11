@@ -1,6 +1,6 @@
 'use strict'
 
-const {serialize, deserialize, validate} = require('./model')
+const {serialize, deserialize, deserializeMin, validate} = require('./model')
 const {ValidationError} = require('./model/validator')
 
 function * postActivityHandler (next) {
@@ -43,7 +43,7 @@ function * getActivityListHandler (next) {
     const latestActivies = require('./service/latest')(this.db)
     const listOfLatestActivities = yield latestActivies(10)
 
-    this.response.body = listOfLatestActivities.map(deserialize)
+    this.response.body = listOfLatestActivities.map(deserializeMin)
   }
 }
 

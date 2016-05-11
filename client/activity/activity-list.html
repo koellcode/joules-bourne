@@ -18,8 +18,8 @@
       json.forEach((activity) => {
         activityEntry = document.createElement('activity-entry')
         activityEntry.sportType = activity.sport
-        activityEntry.startTime = activity.laps[0].StartTime
-        activityEntry.mapUrl = activity.mapUrl
+        activityEntry.startTime = activity.start
+        activityEntry.mapUrl = activity.map
 
         this.appendChild(activityEntry)
       })
