@@ -35,6 +35,43 @@ describe('model', () => {
       expect(serialized.getSport()).to.equal('mock')
     })
 
+    describe('mapUrl', () => {
+      it('should ignore the mapUrl property on serialization', () => {
+        const serialized = model.serialize({
+          mapUrl: 'mock'
+        })
+        expect(serialized.getMapUrl()).not.to.exist
+      })
+
+      it('should return no mapUrl property when no trackpoints are available', () => {
+        const serialized = model.serialize(
+          {
+            '_id': 'mockId',
+            'laps': [
+              {
+                'Track': {
+                  'Trackpoint': [
+                    {
+                      'Position': {
+                        'LatitudeDegrees': 1,
+                        'LongitudeDegrees': 2
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        )
+        expect(serialized.getMapUrl()).to.equal('/api/v1/activity/mockId/map')
+      })
+
+      it('should return a mapUrl property when trackpoints are available', () => {
+        const serialized = model.serialize({_id: 'mockId'})
+        expect(serialized.getMapUrl()).not.to.exist
+      })
+    })
+
     describe('laps', () => {
       it('should defaults the laps property to an empty array', () => {
         const serialized = model.serialize({})

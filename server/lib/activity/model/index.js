@@ -37,7 +37,9 @@ class ActivityModel {
     return this.getLaps().get(0).get('StartTime')
   }
   getMapUrl () {
-    return this.data.get('mapUrl')
+    if (typeof this.getFlatTrackPoints() === 'undefined') return
+    if (this.getFlatTrackPoints().length === 0) return
+    return `/api/v1/activity/${this.data.get('_id')}/map`
   }
   getCalories () {
     return this.getLaps()
@@ -87,8 +89,8 @@ const serializeLap = (lapData) => {
 
 const serialize = (modelData) => {
   return new ActivityModel({
+    _id: modelData._id,
     type: 'activity',
-    mapUrl: `/api/v1/activity/${modelData._id}/map`,
     source: modelData.source || 'unknown',
     sport: modelData.sport || 'unknown',
     laps: (modelData.laps || []).map(serializeLap)
