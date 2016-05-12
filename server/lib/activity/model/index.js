@@ -38,7 +38,7 @@ class ActivityModel {
   }
   getMapUrl () {
     if (typeof this.getFlatTrackPoints() === 'undefined') return
-    if (this.getFlatTrackPoints().length === 0) return
+    if (this.getFlatTrackPoints().size === 0) return
     return `/api/v1/activity/${this.data.get('_id')}/map`
   }
   getCalories () {

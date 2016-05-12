@@ -66,6 +66,26 @@ describe('model', () => {
         expect(serialized.getMapUrl()).to.equal('/api/v1/activity/mockId/map')
       })
 
+      it('should not return a mapUrl property when trackpoints without Positions are available', () => {
+        const serialized = model.serialize(
+          {
+            '_id': 'mockId',
+            'laps': [
+              {
+                'Track': {
+                  'Trackpoint': [
+                    {
+                      'OtherThing': 'OtherValue'
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        )
+        expect(serialized.getMapUrl()).not.to.exist
+      })
+
       it('should not return a mapUrl property when no trackpoints are available', () => {
         const serialized = model.serialize({_id: 'mockId'})
         expect(serialized.getMapUrl()).not.to.exist
