@@ -1,4 +1,5 @@
 <link rel="import" href="../../external/polymer/polymer.html">
+<link rel="import" href="../../external/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="./activity-entry.html">
 <script src="../../external/setimmediate/setImmediate.js"></script>
 <script src="../../external/co/co.js"></script>
@@ -6,12 +7,11 @@
 <dom-module id="activity-list">
   <template>
     <style>
-    ul {
-      list-style-type: none;
-    }
+      :host {
+        @apply(--layout-vertical)
+      }
     </style>
     <h2>Latest 10 activities</h2>
-    <ul class="activityList"></ul>
   </template>
 
   <script>
@@ -29,10 +29,7 @@
         activityEntry.calories = activity.calories
         activityEntry.duration = activity.duration
 
-        const li = document.createElement('li')
-        li.appendChild(activityEntry)
-
-        this.querySelector('.activityList').appendChild(li)
+        this.appendChild(activityEntry)
       })
     }),
     // Fires when the local DOM has been fully prepared
