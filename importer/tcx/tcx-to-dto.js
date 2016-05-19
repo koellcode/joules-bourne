@@ -1,25 +1,19 @@
 'use strict'
 
-const parser = require('xml2json')
+const parser = require('pixl-xml')
 
 const getListOf = (target) => {
   return Array.isArray(target) ? target : [target]
 }
 
 module.exports = (xml) => {
-  const options = {
-    object: true,
-    reversible: false,
-    coerce: true,
-    sanitize: true,
-    trim: true,
-    arrayNotation: false
+  const json = parser.parse(xml)
+  const activities = getListOf(json.Activities.Activity)
+  let source = null
+
+  if (json.Author) {
+    source = json.Author.Name
   }
-
-  const json = parser.toJson(xml, options)
-  const activities = getListOf(json.TrainingCenterDatabase.Activities.Activity)
-
-  const source = json.TrainingCenterDatabase.Author.Name
 
   const dto = activities.map((activity) => {
     return {
