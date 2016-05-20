@@ -18,7 +18,7 @@ module.exports = function (config) {
 
   const bucket = new Couch(`http://${config.couch}/${config.bucket}`, authOptions)
 
-  return function *(next) {
+  return function * (next) {
     this.db = bucket
     yield next
   }
