@@ -7,7 +7,6 @@ describe('activity endpoint', () => {
   let request = null
   let koaTest = null
   let agent = null
-  let app = null
 
   before('require', () => {
     endpoint = require('../endpoint')
@@ -16,7 +15,7 @@ describe('activity endpoint', () => {
   })
 
   before(() => {
-    app = koaTest.createKoaApp(endpoint)
+    const app = koaTest.createKoaApp(endpoint)
     request = agent(app.listen())
   })
 
