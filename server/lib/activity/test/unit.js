@@ -46,4 +46,59 @@ describe('activity endpoint', () => {
       })
     })
   })
+
+  describe('post tcx', () => {
+    it('should answer with status 422 when given sport type is wrong', function (done) {
+      const tcx = `
+      <TrainingCenterDatabase>
+        <Activities>
+          <Activity Sport="None"></Activity>
+        </Activities>
+      </TrainingCenterDatabase>
+      `
+      request
+        .post('/activity')
+        .set('Content-Type', 'application/vnd.garmin.tcx+xml')
+        .send(tcx)
+        .expect(422, () => {
+          expect(dbStub.put.calledOnce).to.be.false
+          done()
+        })
+    })
+    it('should answer with status 200 when validation of given model succeeds', function (done) {
+      const tcx = `
+      <TrainingCenterDatabase>
+        <Activities>
+          <Activity Sport="Biking"></Activity>
+        </Activities>
+      </TrainingCenterDatabase>
+      `
+      request
+        .post('/activity')
+        .set('Content-Type', 'application/vnd.garmin.tcx+xml')
+        .send(tcx)
+        .expect(200, () => {
+          expect(dbStub.put.calledOnce).to.be.true
+          done()
+        })
+    })
+    it('should answer with status 200 when validation of multiple given models succeeds', function (done) {
+      const tcx = `
+      <TrainingCenterDatabase>
+        <Activities>
+          <Activity Sport="Biking"></Activity>
+          <Activity Sport="Running"></Activity>
+        </Activities>
+      </TrainingCenterDatabase>
+      `
+      request
+        .post('/activity')
+        .set('Content-Type', 'application/vnd.garmin.tcx+xml')
+        .send(tcx)
+        .expect(200, () => {
+          expect(dbStub.put.calledTwice).to.be.true
+          done()
+        })
+    })
+  })
 })

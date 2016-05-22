@@ -1,9 +1,8 @@
-const koaBody = require('koa-body')()
 const {postActivity, getActivity, getMapForActivity, getActivityList} = require('./')
 const {postActivityTCX} = require('./')
 
 const registerJsonRoutes = (routePrefix, router) => {
-  router.post(`${routePrefix}/activity`, koaBody, postActivity)
+  router.post(`${routePrefix}/activity`, postActivity)
   router.get(`${routePrefix}/activity`, getActivityList)
   router.get(`${routePrefix}/activity/:id`, getActivity)
   router.get(`${routePrefix}/activity/:id/map`, getMapForActivity)

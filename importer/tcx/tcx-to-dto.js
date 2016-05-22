@@ -3,6 +3,7 @@
 const parser = require('pixl-xml')
 
 const getListOf = (target) => {
+  if (!target) return []
   return Array.isArray(target) ? target : [target]
 }
 

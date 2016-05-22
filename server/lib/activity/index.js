@@ -5,6 +5,12 @@ const {ValidationError} = require('./model/validator')
 
 module.exports = {
   postActivity: function * (next) {
+    if (!this.request.body) {
+      const getRawBody = require('raw-body')
+      const jsonString = yield getRawBody(this.req)
+      this.request.body = JSON.parse(jsonString)
+    }
+
     let modelDataList = null
 
     if (Array.isArray(this.request.body)) {
