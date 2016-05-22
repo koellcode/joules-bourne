@@ -10,7 +10,7 @@ const registerJsonRoutes = (routePrefix, router) => {
 }
 
 const registerTcxRoutes = (routePrefix, router) => {
-  router.post(`${routePrefix}/activity`, koaBody, postActivityTCX)
+  router.post(`${routePrefix}/activity`, postActivityTCX)
 }
 
 module.exports = (routePrefix, router) => {
