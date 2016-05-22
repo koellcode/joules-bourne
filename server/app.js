@@ -1,7 +1,7 @@
 'use strict'
 
 const koa = require('koa')
-const couchbaseMiddleware = require('./middleware/koa-couch')
+const couchMiddleware = require('./middleware/koa-couch')
 const router = require('koa-router')()
 const serve = require('koa-static')
 const app = koa()
@@ -28,7 +28,7 @@ features
   .map(resolveEndpoints)
   .forEach(registerEndpoints)
 
-app.use(couchbaseMiddleware(config))
+app.use(couchMiddleware(config))
 app.use(router.routes())
 app.use(serve('client'))
 
