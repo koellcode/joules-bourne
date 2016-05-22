@@ -1,29 +1,25 @@
 'use strict'
 
 require('mocha-generators').install()
-const koa = require('koa')
 
 describe('activity endpoint', () => {
-  describe('post json', () => {
-    let request = null
-    let app = null
-    let endpoint = null
+  let endpoint = null
+  let request = null
+  let koaTest = null
+  let agent = null
 
-    before('require', () => {
-      endpoint = require('../')
-    })
+  before('require', () => {
+    endpoint = require('../')
+    koaTest = require('./koa-test')
+    agent = require('supertest').agent
+  })
+
+  describe('post json', () => {
+    let app = null
 
     before(() => {
-      app = koa()
-      request = require('supertest').agent(app.listen())
-      app.use(function * (next) {
-        this.db = {
-          put: function * () {
-            return
-          }
-        }
-        yield next
-      })
+      app = koaTest.createKoaApp()
+      request = agent(app.listen())
       app.use(require('koa-body')())
       app.use(endpoint.postActivity)
     })
