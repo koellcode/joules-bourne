@@ -1,5 +1,6 @@
 const koaBody = require('koa-body')()
 const {postActivity, getActivity, getMapForActivity, getActivityList} = require('./')
+const {postActivityTCX} = require('./')
 
 const registerJsonRoutes = (routePrefix, router) => {
   router.post(`${routePrefix}/activity`, koaBody, postActivity)
@@ -8,6 +9,11 @@ const registerJsonRoutes = (routePrefix, router) => {
   router.get(`${routePrefix}/activity/:id/map`, getMapForActivity)
 }
 
+const registerTcxRoutes = (routePrefix, router) => {
+  router.post(`${routePrefix}/activity`, koaBody, postActivityTCX)
+}
+
 module.exports = (routePrefix, router) => {
+  registerTcxRoutes(routePrefix, router)
   registerJsonRoutes(routePrefix, router)
 }

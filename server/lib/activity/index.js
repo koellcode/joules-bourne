@@ -5,10 +5,16 @@ const {ValidationError} = require('./model/validator')
 
 module.exports = {
   postActivity: function * (next) {
-    const modelData = this.request.body
+    let modelDataList = null
+
+    if (Array.isArray(this.request.body)) {
+      modelDataList = this.request.body
+    } else {
+      modelDataList = [this.request.body]
+    }
 
     try {
-      validate(modelData)
+      modelDataList.forEach(validate)
     } catch (error) {
       if (error instanceof ValidationError) {
         this.status = 422
@@ -19,12 +25,13 @@ module.exports = {
         return yield next
       }
     }
-    const model = serialize(modelData)
+
     const create = require('./service/create')(this.db)
-    // error handling here
-    yield create(model)
-    // dto serializer here
-    this.response.body = deserialize(model)
+
+    yield modelDataList
+      .map(serialize)
+      .map(create)
+
     this.status = 200
     yield next
   },
@@ -59,5 +66,21 @@ module.exports = {
     this.type = 'image/png'
     this.status = 200
     yield next
+  },
+  postActivityTCX: function * (next) {
+    if (!this.request.is('application/vnd.garmin.tcx+xml')) {
+      return yield next
+    }
+
+    const getRawBody = require('raw-body')
+    const xml = yield getRawBody(this.req)
+
+    try {
+      const activityDtos = require('../../../importer/tcx/tcx-to-dto')(xml)
+      this.request.body = activityDtos
+      yield next
+    } catch (error) {
+      this.throw(error.message, 500)
+    }
   }
 }
