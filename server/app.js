@@ -3,7 +3,6 @@
 const koa = require('koa')
 const couchbaseMiddleware = require('./middleware/koa-couch')
 const router = require('koa-router')()
-const koaBody = require('koa-body')()
 const serve = require('koa-static')
 const app = koa()
 const config = require('./config.js')
@@ -16,18 +15,18 @@ const features = [
 const apiVersion = 'v1'
 const apiPrefix = `/api/${apiVersion}`
 
-const resolveFeatures = (featureName) => {
-  return require(`./lib/${featureName}`)
+const resolveEndpoints = (featureName) => {
+  return require(`./lib/${featureName}/endpoint`)
 }
 
-const routerWrapper = {
-  get: (routeName, routeHandler) => router.get(`${apiPrefix}${routeName}`, routeHandler),
-  post: (routeName, routeHandler) => router.post(`${apiPrefix}${routeName}`, koaBody, routeHandler)
+const registerEndpoints = (endpoint) => {
+  const routePrefix = `${apiPrefix}`
+  endpoint(routePrefix, router)
 }
 
 features
-  .map(resolveFeatures)
-  .forEach((feature) => feature(routerWrapper))
+  .map(resolveEndpoints)
+  .forEach(registerEndpoints)
 
 app.use(couchbaseMiddleware(config))
 app.use(router.routes())

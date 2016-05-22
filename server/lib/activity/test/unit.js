@@ -7,26 +7,25 @@ describe('activity endpoint', () => {
   describe('post', () => {
     let request = null
     let app = null
+    let endpoint = null
+
+    before('require', () => {
+      endpoint = require('../')
+    })
 
     before(() => {
       app = koa()
       request = require('supertest').agent(app.listen())
-
-      require('../')({
-        get: () => '',
-        post: (route, handler) => {
-          app.use(require('koa-body')())
-          app.use(function * (next) {
-            this.db = {
-              put: function * () {
-                return
-              }
-            }
-            yield next
-          })
-          app.use(handler)
+      app.use(function * (next) {
+        this.db = {
+          put: function * () {
+            return
+          }
         }
+        yield next
       })
+      app.use(require('koa-body')())
+      app.use(endpoint.postActivity)
     })
 
     it('should answer with status 422 when given sport type is wrong', function (done) {
