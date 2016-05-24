@@ -35,6 +35,42 @@ describe('model', () => {
       expect(serialized.getSport()).to.equal('mock')
     })
 
+    it('should serialize the id', () => {
+      const serialized = model.serialize({
+        Id: 'mockId'
+      })
+
+      expect(serialized.getId()).to.equal('mockId')
+    })
+
+    it('should serialize the startDate when id is not defined', () => {
+      const serialized = model.serialize(
+        {
+          'laps': [
+            {
+              'StartTime': 'someDate'
+            }
+          ]
+        }
+      )
+
+      expect(serialized.getId()).to.equal('someDate')
+    })
+
+    it('should serialize the StartTime', () => {
+      const serialized = model.serialize(
+        {
+          'laps': [
+            {
+              'StartTime': 'someDate'
+            }
+          ]
+        }
+      )
+
+      expect(serialized.getStartTime()).to.equal('someDate')
+    })
+
     describe('mapUrl', () => {
       it('should ignore the mapUrl property on serialization', () => {
         const serialized = model.serialize({
@@ -46,7 +82,7 @@ describe('model', () => {
       it('should return a mapUrl property when trackpoints with Positions are available', () => {
         const serialized = model.serialize(
           {
-            '_id': 'mockId',
+            'Id': 'mockId',
             'laps': [
               {
                 'Track': {
@@ -69,7 +105,7 @@ describe('model', () => {
       it('should not return a mapUrl property when trackpoints without Positions are available', () => {
         const serialized = model.serialize(
           {
-            '_id': 'mockId',
+            'Id': 'mockId',
             'laps': [
               {
                 'Track': {
@@ -87,7 +123,7 @@ describe('model', () => {
       })
 
       it('should not return a mapUrl property when no trackpoints are available', () => {
-        const serialized = model.serialize({_id: 'mockId'})
+        const serialized = model.serialize({id: 'mockId'})
         expect(serialized.getMapUrl()).not.to.exist
       })
     })

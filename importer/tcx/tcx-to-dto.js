@@ -20,7 +20,8 @@ module.exports = (xml) => {
     return {
       source: source,
       sport: activity.Sport,
-      laps: getListOf(activity.Lap)
+      laps: getListOf(activity.Lap),
+      Id: activity.Id
     }
   })
 

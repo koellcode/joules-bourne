@@ -13,7 +13,9 @@ class ActivityModel {
   setCreatedDate (date) {
     return this.data.set('createdDate', `${date}`)
   }
-
+  getId () {
+    return this.data.get('id') || this.getStartTime()
+  }
   getFlatTrackPoints () {
     const trackPoints = this.getLaps().map(
       (lap) => lap.getIn(['Track', 'Trackpoint'])
@@ -39,7 +41,7 @@ class ActivityModel {
   getMapUrl () {
     if (typeof this.getFlatTrackPoints() === 'undefined') return
     if (this.getFlatTrackPoints().size === 0) return
-    return `/api/v1/activity/${this.data.get('_id')}/map`
+    return `/api/v1/activity/${this.getId()}/map`
   }
   getCalories () {
     return this.getLaps()
@@ -89,7 +91,7 @@ const serializeLap = (lapData) => {
 
 const serialize = (modelData) => {
   return new ActivityModel({
-    _id: modelData._id,
+    id: modelData.Id,
     type: 'activity',
     source: modelData.source || 'unknown',
     sport: modelData.sport || 'unknown',

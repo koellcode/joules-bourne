@@ -1,6 +1,5 @@
 'use strict'
 
-const uuid = require('uuid')
 const {deserialize} = require('../model')
 
 const appendCreateDate = (model) => {
@@ -9,7 +8,7 @@ const appendCreateDate = (model) => {
 
 module.exports = (db) => {
   return function * (model) {
-    const id = `activity_${uuid.v4()}`
+    const id = `${model.getId()}`
     return yield db.put(deserialize(appendCreateDate(model)), id)
   }
 }

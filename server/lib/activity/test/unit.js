@@ -28,19 +28,19 @@ describe('activity endpoint', () => {
 
   describe('post json', () => {
     it('should answer with status 422 when given sport type is wrong', function (done) {
-      request.post('/activity').send({sport: 'none'}).expect(422, () => {
+      request.post('/activity').send({sport: 'none', Id: 'id'}).expect(422, () => {
         expect(dbStub.put.calledOnce).to.be.false
         done()
       })
     })
     it('should answer with status 200 when validation of given model succeeds', function (done) {
-      request.post('/activity').send({sport: 'Biking'}).expect(200, () => {
+      request.post('/activity').send({sport: 'Biking', Id: 'id'}).expect(200, () => {
         expect(dbStub.put.calledOnce).to.be.true
         done()
       })
     })
     it('should answer with status 200 when validation of multiple given models succeeds', function (done) {
-      request.post('/activity').send([{sport: 'Biking'}, {sport: 'Running'}]).expect(200, () => {
+      request.post('/activity').send([{sport: 'Biking', Id: 'id'}, {sport: 'Running', Id: 'id'}]).expect(200, () => {
         expect(dbStub.put.calledTwice).to.be.true
         done()
       })
@@ -52,7 +52,9 @@ describe('activity endpoint', () => {
       const tcx = `
       <TrainingCenterDatabase>
         <Activities>
-          <Activity Sport="None"></Activity>
+          <Activity Sport="None">
+            <Id>2015-01-22T19:57:04.000Z</Id>
+          </Activity>
         </Activities>
       </TrainingCenterDatabase>
       `
@@ -69,7 +71,9 @@ describe('activity endpoint', () => {
       const tcx = `
       <TrainingCenterDatabase>
         <Activities>
-          <Activity Sport="Biking"></Activity>
+          <Activity Sport="Biking">
+            <Id>2015-01-22T19:57:04.000Z</Id>
+          </Activity>
         </Activities>
       </TrainingCenterDatabase>
       `
@@ -86,8 +90,8 @@ describe('activity endpoint', () => {
       const tcx = `
       <TrainingCenterDatabase>
         <Activities>
-          <Activity Sport="Biking"></Activity>
-          <Activity Sport="Running"></Activity>
+          <Activity Sport="Biking"><Id>2015-01-22T19:57:04.000Z</Id></Activity>
+          <Activity Sport="Running"><Id>2015-01-22T19:57:04.000Z</Id></Activity>
         </Activities>
       </TrainingCenterDatabase>
       `
