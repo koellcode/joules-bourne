@@ -6,9 +6,26 @@ const appendCreateDate = (model) => {
   return model.setCreatedDate(new Date().toISOString())
 }
 
+const mergeRev = (updatedDto, {_rev}) => {
+  return Object.assign(updatedDto, {_rev})
+}
+
 module.exports = (db) => {
   return function * (model) {
     const id = `${model.getId()}`
-    return yield db.put(deserialize(appendCreateDate(model)), id)
+    const localDocument = deserialize(appendCreateDate(model))
+    let toPersistedDocument = null
+
+    try {
+      const remoteDocument = yield db.get(id)
+      // we want a proper merge here at some time
+      toPersistedDocument = mergeRev(localDocument, remoteDocument)
+    } catch (err) {
+      // TODO: check on 404 here
+      // document do not exist, create new one
+      toPersistedDocument = deserialize(appendCreateDate(model))
+    }
+
+    return yield db.put(toPersistedDocument, id)
   }
 }
