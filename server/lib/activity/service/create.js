@@ -22,8 +22,8 @@ module.exports = (db) => {
       toPersistedDocument = mergeRev(localDocument, remoteDocument)
     } catch (err) {
       // TODO: check on 404 here
-      // document do not exist, create new one
-      toPersistedDocument = deserialize(appendCreateDate(model))
+      // document do not exist, use local one
+      toPersistedDocument = localDocument
     }
 
     return yield db.put(toPersistedDocument, id)
