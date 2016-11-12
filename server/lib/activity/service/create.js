@@ -10,6 +10,10 @@ const mergeRev = (updatedDto, {_rev}) => {
   return Object.assign(updatedDto, {_rev})
 }
 
+const mergeId = (updatedDto, {_id}) => {
+  return Object.assign(updatedDto, {_id})
+}
+
 module.exports = (db) => {
   return function * (model) {
     const id = `${model.getId()}`
@@ -26,6 +30,8 @@ module.exports = (db) => {
       toPersistedDocument = localDocument
     }
 
-    return yield db.put(toPersistedDocument, id)
+    const toPersistedDocumentWithId = mergeId(toPersistedDocument, {_id: id})
+
+    return yield db.put(toPersistedDocumentWithId)
   }
 }
