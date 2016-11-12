@@ -27,7 +27,7 @@
     "deep-readdir": "^0.2.0",
     "immutable": "^3.8.1",
     "koa": "^2.0.0",
-    "koa-router": "^5.4.0",
+    "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
     "lodash": "^4.13.1",
     "mapbox-static-paths": "^1.1.1",
