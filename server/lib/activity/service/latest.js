@@ -1,17 +1,22 @@
 'use strict'
-const {serialize} = require('../model')
 
-module.exports = (db) => {
-  return function * (limit) {
-    const activities = yield db.query('activity/amount', {
+const getActivity = require('./get')
+
+module.exports = function (db) {
+  return async function (limit) {
+    const activities = await db.query('activity/amount', {
       reduce: false,
       limit: limit,
       descending: true
     })
 
-    const activityDTOs = yield activities.rows
-      .map((row) => db.get(row.id))
+    const get = getActivity(db)
 
-    return activityDTOs.map(serialize)
+    const resolvedActivities = Promise.all(
+      activities.rows
+        .map(row => row.id)
+        .map(get)
+    )
+    return resolvedActivities
   }
 }

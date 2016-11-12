@@ -10,6 +10,22 @@ async function getActivity (next) {
   await next
 }
 
+async function getActivityList (next) {
+  const isAmount = Boolean(this.query.amount)
+  if (isAmount) {
+    const amount = require('./service/amount')(this.db)
+    this.response.body = {
+      amount: await amount()
+    }
+    await next
+  } else {
+    const latestActivies = require('./service/latest')(this.db)
+    const listOfLatestActivities = await latestActivies(10)
+    this.response.body = listOfLatestActivities.map(deserializeMin)
+    await next
+  }
+}
+
 module.exports = {
   postActivity: function * (next) {
     if (!this.request.body) {
@@ -48,21 +64,7 @@ module.exports = {
     this.status = 200
     yield next
   },
-  getActivityList: function * (next) {
-    const isAmount = Boolean(this.query.amount)
-    if (isAmount) {
-      const amount = require('./service/amount')(this.db)
-      this.response.body = {
-        amount: yield amount()
-      }
-      yield next
-    } else {
-      const latestActivies = require('./service/latest')(this.db)
-      const listOfLatestActivities = yield latestActivies(10)
-      this.response.body = listOfLatestActivities.map(deserializeMin)
-      yield next
-    }
-  },
+  getActivityList: getActivityList,
   getActivity: getActivity,
   getMapForActivity: function * (next) {
     const getActivity = require('./service/get')(this.db)
