@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "quantify yourself",
   "scripts": {
-    "start": "node ./server/app.js",
-    "test": "node_modules/standard/bin/cmd.js && ./node_modules/.bin/mocha --reporter spec 'server/lib/**/test/*.js'",
+    "start": "node --harmony-async-await ./server/app.js",
+    "test": "node_modules/standard/bin/cmd.js && ./node_modules/.bin/mocha --harmony-async-await --reporter spec 'server/lib/**/test/*.js'",
     "postinstall": "node_modules/bower/bin/bower install",
     "travis-coverage": "node_modules/.bin/nyc npm test && node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls"
   },

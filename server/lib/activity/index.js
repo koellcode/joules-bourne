@@ -3,6 +3,13 @@
 const {serialize, deserialize, deserializeMin, validate} = require('./model')
 const {ValidationError} = require('./model/validator')
 
+async function getActivity (next) {
+  const getActivity = require('./service/get')(this.db)
+  this.response.body = deserialize(await getActivity(this.params.id))
+  this.status = 200
+  await next
+}
+
 module.exports = {
   postActivity: function * (next) {
     if (!this.request.body) {
@@ -56,12 +63,7 @@ module.exports = {
       yield next
     }
   },
-  getActivity: function * (next) {
-    const getActivity = require('./service/get')(this.db)
-    this.response.body = deserialize(yield getActivity(this.params.id))
-    this.status = 200
-    yield next
-  },
+  getActivity: getActivity,
   getMapForActivity: function * (next) {
     const getActivity = require('./service/get')(this.db)
     const activity = yield getActivity(this.params.id)
