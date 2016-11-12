@@ -1,10 +1,10 @@
 'use strict'
 
-const koa = require('koa')
+const Koa = require('koa')
 const couchMiddleware = require('./middleware/koa-couch')
 const router = require('koa-router')()
 const serve = require('koa-static')
-const app = koa()
+const app = new Koa()
 const config = require('./config.js')
 
 const features = [
