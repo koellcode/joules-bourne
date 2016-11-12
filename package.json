@@ -34,7 +34,8 @@
     "node-fetch": "^1.5.2",
     "pixl-xml": "^1.0.6",
     "pouchdb": "^6.0.7",
-    "raw-body": "^2.1.6"
+    "raw-body": "^2.1.6",
+    "standard": "^8.5.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
