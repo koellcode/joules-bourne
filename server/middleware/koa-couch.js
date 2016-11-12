@@ -18,8 +18,8 @@ module.exports = function (config) {
 
   const bucket = new Couch(`http://${config.couch}/${config.bucket}`, authOptions)
 
-  return function * (next) {
-    this.db = bucket
-    yield next
+  return async (ctx, next) => {
+    ctx.db = bucket
+    await next()
   }
 }

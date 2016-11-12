@@ -15,13 +15,13 @@ const mergeId = (updatedDto, {_id}) => {
 }
 
 module.exports = (db) => {
-  return function * (model) {
+  return async (model) => {
     const id = `${model.getId()}`
     const localDocument = deserialize(appendCreateDate(model))
     let toPersistedDocument = null
 
     try {
-      const remoteDocument = yield db.get(id)
+      const remoteDocument = await db.get(id)
       // we want a proper merge here at some time
       toPersistedDocument = mergeRev(localDocument, remoteDocument)
     } catch (err) {
@@ -32,6 +32,6 @@ module.exports = (db) => {
 
     const toPersistedDocumentWithId = mergeId(toPersistedDocument, {_id: id})
 
-    return yield db.put(toPersistedDocumentWithId)
+    return await db.put(toPersistedDocumentWithId)
   }
 }

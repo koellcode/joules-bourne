@@ -3,94 +3,94 @@
 const {serialize, deserialize, deserializeMin, validate} = require('./model')
 const {ValidationError} = require('./model/validator')
 
-async function getActivity (next) {
-  const getActivity = require('./service/get')(this.db)
-  this.response.body = deserialize(await getActivity(this.params.id))
-  this.status = 200
-  await next
+async function getActivity (ctx, next) {
+  const getActivity = require('./service/get')(ctx.db)
+  ctx.response.body = deserialize(await getActivity(ctx.params.id))
+  ctx.status = 200
+  await next()
 }
 
-async function getActivityList (next) {
-  const isAmount = Boolean(this.query.amount)
+async function getActivityList (ctx, next) {
+  const isAmount = Boolean(ctx.query.amount)
   if (isAmount) {
-    const amount = require('./service/amount')(this.db)
-    this.response.body = {
+    const amount = require('./service/amount')(ctx.db)
+    ctx.response.body = {
       amount: await amount()
     }
-    await next
+    await next()
   } else {
-    const latestActivies = require('./service/latest')(this.db)
+    const latestActivies = require('./service/latest')(ctx.db)
     const listOfLatestActivities = await latestActivies(10)
-    this.response.body = listOfLatestActivities.map(deserializeMin)
-    await next
+    ctx.response.body = listOfLatestActivities.map(deserializeMin)
+    await next()
   }
 }
 
 module.exports = {
-  postActivity: function * (next) {
-    if (!this.request.body) {
+  postActivity: async (ctx, next) => {
+    if (!ctx.request.body) {
       const getRawBody = require('raw-body')
-      const jsonString = yield getRawBody(this.req)
-      this.request.body = JSON.parse(jsonString)
+      const jsonString = await getRawBody(ctx.req)
+      ctx.request.body = JSON.parse(jsonString)
     }
 
     let modelDataList = null
 
-    if (Array.isArray(this.request.body)) {
-      modelDataList = this.request.body
+    if (Array.isArray(ctx.request.body)) {
+      modelDataList = ctx.request.body
     } else {
-      modelDataList = [this.request.body]
+      modelDataList = [ctx.request.body]
     }
 
     try {
       modelDataList.forEach(validate)
     } catch (error) {
       if (error instanceof ValidationError) {
-        this.status = 422
-        this.response.body = {message: error.message}
-        return yield next
+        ctx.status = 422
+        ctx.response.body = {message: error.message}
+        return await next()
       } else {
-        this.status = 500
-        return yield next
+        ctx.status = 500
+        return await next()
       }
     }
 
-    const create = require('./service/create')(this.db)
+    const create = require('./service/create')(ctx.db)
 
-    yield modelDataList
+    modelDataList
       .map(serialize)
       .map(create)
 
-    this.status = 200
-    yield next
+    ctx.status = 200
+    await next()
   },
   getActivityList: getActivityList,
   getActivity: getActivity,
-  getMapForActivity: function * (next) {
-    const getActivity = require('./service/get')(this.db)
-    const activity = yield getActivity(this.params.id)
-    const getMap = require('./service/static-map')(this.db)
-    const staticMap = yield getMap(activity)
+  getMapForActivity: async (ctx, next) => {
+    const getActivity = require('./service/get')(ctx.db)
+    const activity = await getActivity(ctx.params.id)
+    const getMap = require('./service/static-map')(ctx.db)
+    const staticMap = await getMap(activity)
 
-    this.body = staticMap.body
-    this.type = 'image/png'
-    this.status = 200
-    yield next
+    ctx.body = staticMap.body
+    ctx.type = 'image/png'
+    ctx.status = 200
+    await next()
   },
-  postActivityTCX: function * (next) {
-    if (!this.request.is('application/vnd.garmin.tcx+xml')) {
-      return yield next
+  postActivityTCX: async (ctx, next) => {
+    if (!ctx.request.is('application/vnd.garmin.tcx+xml')) {
+      return await next()
     }
 
     const getRawBody = require('raw-body')
-    const xml = yield getRawBody(this.req)
+    const xml = await getRawBody(ctx.req)
 
     try {
       const activityDtos = require('../../../importer/tcx/tcx-to-dto')(xml)
-      this.request.body = activityDtos
-      yield next
+      ctx.request.body = activityDtos
+      await next()
     } catch (error) {
-      this.throw(error.message, 500)
+      ctx.throw(error.message, 500)
     }
   }
 }

@@ -1,8 +1,8 @@
 module.exports = {
-  alive: function * (next) {
+  alive: async (ctx, next) => {
     this.body = {
       alive: true
     }
-    yield next
+    await next()
   }
 }

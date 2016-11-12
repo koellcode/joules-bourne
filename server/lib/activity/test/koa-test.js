@@ -1,4 +1,4 @@
-const koa = require('koa')
+const Koa = require('koa')
 const router = require('koa-router')()
 require('sinon-as-promised')
 const sinon = require('sinon')
@@ -16,14 +16,14 @@ module.exports = () => {
 
   return {
     createKoaApp: (endpoint) => {
-      const app = koa()
+      const app = new Koa()
+      endpoint('', router)
 
-      app.use(function * (next) {
-        this.db = _dbStub
-        yield next
+      app.use(async (ctx, next) => {
+        ctx.db = _dbStub
+        await next()
       })
 
-      endpoint('', router)
       app.use(router.routes())
       return app
     },

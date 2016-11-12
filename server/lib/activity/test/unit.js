@@ -7,19 +7,19 @@ describe('activity endpoint', () => {
   let endpoint = null
   let request = null
   let koaTest = null
-  let agent = null
+  let superagent = null
   let dbStub = null
 
   before('require', () => {
     endpoint = require('../endpoint')
     koaTest = require('./koa-test')()
-    agent = require('supertest').agent
+    superagent = require('supertest')
   })
 
   before(() => {
     const app = koaTest.createKoaApp(endpoint)
     dbStub = koaTest.dbStub()
-    request = agent(app.listen())
+    request = superagent(app.listen())
   })
 
   beforeEach(() => {
